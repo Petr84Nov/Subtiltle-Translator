@@ -57,5 +57,5 @@ def translate_subtitles(input_file, output_file=None, source_language="auto", ta
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(output)
 
-    print(f"Hotovo: Přeložené titulky uloženy do '{output_file}'")
-    return f"Hotovo: Přeložené titulky uloženy do '{output_file}'"
+    print(f"Hotovo. Přeložené titulky uloženy do '{output_file}'")
+    return f"Hotovo. Přeložené titulky uloženy do '{output_file}'"
