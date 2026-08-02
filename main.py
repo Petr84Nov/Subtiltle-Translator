@@ -1,3 +1,4 @@
+import threading
 from tkinter import *
 from tkinter import filedialog
 from transcriber import translate_subtitles
@@ -22,14 +23,27 @@ def transcribe():
         progress_text.configure(text="Vyber soubor s titulky")
         return
     progress_text.configure(text="Zpracovávám")
-    window.update_idletasks()
-    try:
-        # translate_subtitles(srt_path)
-        # progress_text.config(text="Hotovo")
-        result = translate_subtitles(srt_path, source_language=in_lang, target_language=out_lang)
-        progress_text.configure(text=result)
-    except Exception as e:
-        progress_text.configure(text=f"Chyba{e}")
+    transcribe_button.configure(state=DISABLED)
+    # window.update_idletasks()
+    def thread_transcribe():
+        try:
+            # translate_subtitles(srt_path)
+            # progress_text.config(text="Hotovo")
+            result = translate_subtitles(srt_path, source_language=in_lang, target_language=out_lang)
+            # progress_text.configure(text=result)
+            window.after(0, is_done, result)
+        except Exception as e:
+            # progress_text.configure(text=f"Chyba{e}")
+            window.after(0, is_error, e)
+    threading.Thread(target=thread_transcribe, daemon=True).start()
+
+def is_done(result):
+    progress_text.configure(text=result)
+    transcribe_button.configure(state=NORMAL)
+
+def is_error(e):
+    progress_text.configure(text=f"Chyba{e}")
+    transcribe_button.configure(state=NORMAL)
 
 # hlavní okno
 window = ctk.CTk()
