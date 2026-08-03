@@ -51,6 +51,7 @@ window.title("Převod titulků")
 window.minsize(width, height)
 window.resizable(width=False, height=False)
 window.config(bg=main_color)
+window.iconbitmap("translate.ico")
 
 # framy
 input_frame = ctk.CTkFrame(window, bg_color=main_color, fg_color=main_color)
